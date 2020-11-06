@@ -1,4 +1,4 @@
-from app.KermitClient import KermitClient
+from app.app import KermitClient
 from dotenv import load_dotenv
 import os
 

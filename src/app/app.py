@@ -1,5 +1,5 @@
 from discord import Client
-from random import randint
+from app.commands import jojo
 
 class KermitClient(Client):
   def set_env(self, env):
@@ -26,19 +26,6 @@ class KermitClient(Client):
 
     if message.content == '$jojo':
       self.LogClient(message)
-
-      responses = [
-        'It was me, Kermit Bot!',
-        'KONO DIO DA',
-        'Goodbye, JoJo!',
-        'ROOO DOOO ROOO RAAA DAAA',
-        'ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA ORA',
-        'WRRRRYYYYY',
-        'Daga kotowaru!',
-        'I can even lift this rock?',
-        'How many slices of bread have you eaten?',
-        'NOROI NOROI ZA WARUDO WA SAIKYO NO STANDO DA'
-      ]
-      response = responses[randint(0, len(responses) - 1)]
+      response: str = jojo.respond()
       await message.channel.send(response)
       self.LogServer(response)
