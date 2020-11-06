@@ -13,9 +13,9 @@ class KermitClient(Client):
   def LogServer(self, response: str):
     print(f'server ({self.user}) sent: {response}')
 
-  async def run_function(self, function, message):
+  async def run_function(self, run_command, message):
     self.LogClient(message)
-    response: str = function()
+    response: str = run_command()
     await message.channel.send(response)
     self.LogServer(response)
 
