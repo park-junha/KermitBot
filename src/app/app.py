@@ -13,6 +13,12 @@ class KermitClient(Client):
   def LogServer(self, response: str):
     print(f'server ({self.user}) sent: {response}')
 
+  async def run_function(self, function, message):
+    self.LogClient(message)
+    response: str = function()
+    await message.channel.send(response)
+    self.LogServer(response)
+
   async def on_ready(self):
     print(f'bot connected: {self.user}')
     for guild in self.guilds:
@@ -25,13 +31,7 @@ class KermitClient(Client):
       return
 
     if message.content == '$jojo':
-      self.LogClient(message)
-      response: str = jojo.respond()
-      await message.channel.send(response)
-      self.LogServer(response)
+      await self.run_function(jojo.respond, message)
 
     if message.content.lower() == '$gamers':
-      self.LogClient(message)
-      response: str = gamers.respond()
-      await message.channel.send(response)
-      self.LogServer(response)
+      await self.run_function(gamers.respond, message)
