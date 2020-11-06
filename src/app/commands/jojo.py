@@ -1,6 +1,6 @@
 from random import randint
 
-def respond():
+def respond() -> str:
   responses = [
     'It was me, Kermit Bot!',
     'KONO DIO DA',
