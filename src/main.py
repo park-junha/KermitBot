@@ -1,0 +1,1 @@
+print("KONO KERUMITTO BOTTO DA!")
