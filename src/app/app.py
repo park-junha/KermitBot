@@ -4,7 +4,8 @@ from app.commands import jojo, gamers
 class KermitClient(Client):
   def set_env(self, env):
     self.local_env = {
-      'guild': env['guild']
+      'guild': env['guild'],
+      'announcements': env['announcements']
     }
 
   def LogClient(self, message: str):
@@ -23,9 +24,17 @@ class KermitClient(Client):
     print(f'bot connected: {self.user}')
     for guild in self.guilds:
       if guild.name == self.local_env['guild']:
-        print(f'bot found discord guild: {guild.name}')
+        self.guild = guild
+        print(f'bot found discord guild: {self.guild.name}')
+        break
+    for text_channel in self.guild.text_channels:
+      if text_channel.name == self.local_env['announcements']:
+        self.announcements = text_channel
+        print(f'bot found text channel: {self.announcements.name}')
+        break
+    await self.run_event('test')
 
-  async def on_message(self, message: str):
+  async def on_message(self, message):
     # Ignore messages from the bot itself to avoid getting stuck in a loop
     if message.author == self.user:
       return
@@ -33,5 +42,17 @@ class KermitClient(Client):
     if message.content == '$jojo':
       await self.run_function(jojo.respond, message)
 
-    if message.content.lower() == '$gamers':
+    if message.content.lower() == 'gamers':
       await self.run_function(gamers.respond, message)
+
+  async def run_event(self, event: str):
+    if event == 'test':
+      response: str = 'I AM ONLINE WRRRYYYY'
+      await self.announcements.send(response)
+      self.LogServer(response)
+      return
+
+    error: str = 'Unknown event ' + event + ' was passed to ' \
+      + 'KermitClient.run_event'
+    print(f'FATAL: {error}')
+    raise Exception(error)

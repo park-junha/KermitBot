@@ -3,6 +3,9 @@
 ## 0.2.0
 - Added a shell script to run the app more easily
 - Added `CHANGELOG.md`
+- Added an event runner to `KermitClient`
+- Added `ANNOUNCEMENTS` to `.env.example`
+- Changed `$gamers` command to `gamers` (case insensitive)
 
 ## 0.1.1
 - Renamed `run_function.function` in `KermitClient` to `run_function.run_command`
