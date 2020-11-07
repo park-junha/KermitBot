@@ -6,6 +6,7 @@
 - Added an event runner to `KermitClient`
 - Added `ANNOUNCEMENTS` to `.env.example`
 - Changed `$gamers` command to `gamers` (case insensitive)
+- Added an `event_onstart` env option to `KermitClient`
 
 ## 0.1.1
 - Renamed `run_function.function` in `KermitClient` to `run_function.run_command`
