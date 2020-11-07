@@ -2,12 +2,30 @@ from discord import Client
 from app.commands import jojo, gamers
 from app.events import poll
 
+# TODO: replace with db call
+def TEMPORARY_get_poll_params():
+  return {
+    'message': 'What games would you guys like to play this weekend?',
+    'options': [
+      {
+        'name': 'skribbl.io',
+        'emoji_id': 768246281100853258
+      },
+      {
+        'name': 'Among Us',
+        'emoji_id': 756211678579785863
+      }
+    ]
+  }
+
 class KermitClient(Client):
   def set_env(self, env):
     self.local_env = {
       'guild': env['guild'],
       'announcements': env['announcements']
     }
+    if env['event_onstart'] != None:
+      self.local_env['event_onstart'] = env['event_onstart']
 
   def LogClient(self, message: str):
     print(f'client ({message.author}) sent: {message.content}')
@@ -33,7 +51,15 @@ class KermitClient(Client):
         self.announcements = text_channel
         print(f'bot found text channel: {self.announcements.name}')
         break
-    await self.run_event('poll') # TODO: remove this line, for testing only
+    if self.local_env['event_onstart'] != None:
+      event_name: str = self.local_env['event_onstart']['event_name']
+      await self.run_event(event_name)
+      print(f'bot completed running event: {event_name}')
+      if self.local_env['event_onstart']['close_after'] == True:
+        print('closing bot connection...')
+        await self.close()
+        print('bot connection closed!')
+      return
 
   async def on_message(self, message):
     # Ignore messages from the bot itself to avoid getting stuck in a loop
@@ -50,18 +76,13 @@ class KermitClient(Client):
     message: str = ''
 
     if event == 'poll':
-      message: str = 'I AM ONLINE WRRRYYYY'
-      params = {
-        'channel': self.announcements,
-        'message': message
-      }
-      for emoji in self.env_guild.emojis:
-        if emoji.name == 'stare':
-          params['emoji'] = emoji
-          break
+      params = TEMPORARY_get_poll_params() # TODO: replace with db call
+      # Add announcements channel and emojis to params
+      params['channel'] = self.announcements
+      for option in params['options']:
+        option['emoji'] = self.get_emoji(option['emoji_id'])
 
-      await poll.run_event(params)
-      self.LogServer(message)
+      self.LogServer(await poll.run_event(params))
       return
 
     error: str = 'Unknown event ' + event + ' was passed to ' \
