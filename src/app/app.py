@@ -1,5 +1,6 @@
 from discord import Client
 from app.commands import jojo, gamers
+from app.events import poll
 
 class KermitClient(Client):
   def set_env(self, env):
@@ -32,7 +33,7 @@ class KermitClient(Client):
         self.announcements = text_channel
         print(f'bot found text channel: {self.announcements.name}')
         break
-    await self.run_event('test')
+    await self.run_event('poll')
 
   async def on_message(self, message):
     # Ignore messages from the bot itself to avoid getting stuck in a loop
@@ -46,10 +47,12 @@ class KermitClient(Client):
       await self.run_function(gamers.respond, message)
 
   async def run_event(self, event: str):
-    if event == 'test':
-      response: str = 'I AM ONLINE WRRRYYYY'
-      await self.announcements.send(response)
-      self.LogServer(response)
+    message: str = ''
+
+    if event == 'poll':
+      message: str = 'I AM ONLINE WRRRYYYY'
+      await poll.run_event(self.announcements, message)
+      self.LogServer(message)
       return
 
     error: str = 'Unknown event ' + event + ' was passed to ' \
