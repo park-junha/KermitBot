@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.2.2
+- Added a `toggle_copy_flip` command that copies Kermit Black :^)
+
 ## 0.2.1
 - Add a `react_only` option to `poll.py`
 - Add `poll_gametime` event and rename `poll` event to `poll_games`
