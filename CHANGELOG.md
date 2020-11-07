@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.2.1
+- Add a `react_only` option to `poll.py`
+- Add `poll_gametime` event and rename `poll` event to `poll_games`
+- Add script for `poll_gametime` event
+
 ## 0.2.0
 - Added a shell script to run the app more easily
 - Added `CHANGELOG.md`

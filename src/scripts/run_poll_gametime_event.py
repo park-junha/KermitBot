@@ -1,9 +1,12 @@
 # This script opens a bot connection, runs the 'poll' event, then closes
 # the connection as soon as it finishes.
 
+import sys
+import os
+sys.path.append(os.path.abspath('src/'))
+
 from app.app import KermitClient
 from dotenv import load_dotenv
-import os
 import asyncio
 
 async def main():
@@ -13,7 +16,7 @@ async def main():
     'guild': os.getenv('GUILD'),
     'announcements': os.getenv('ANNOUNCEMENTS'),
     'event_onstart': {
-      'event_name': 'poll',
+      'event_name': 'poll_gametime',
       'close_after': True
     }
   }

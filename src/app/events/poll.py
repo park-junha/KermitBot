@@ -1,7 +1,9 @@
 async def run_event(params):
   message_draft: str = params['message'] + '\n'
-  for option in params['options']:
-    message_draft += '\n- ' + str(option['emoji']) + ' ' + option['name']
+
+  if params['react_only'] == False:
+    for option in params['options']:
+      message_draft += '\n- ' + str(option['emoji']) + ' ' + option['name']
 
   sent_message = await params['channel'].send(message_draft)
 

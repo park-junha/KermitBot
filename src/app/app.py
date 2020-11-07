@@ -2,22 +2,6 @@ from discord import Client
 from app.commands import jojo, gamers
 from app.events import poll
 
-# TODO: replace with db call
-def TEMPORARY_get_poll_params():
-  return {
-    'message': 'What games would you guys like to play this weekend?',
-    'options': [
-      {
-        'name': 'skribbl.io',
-        'emoji_id': 768246281100853258
-      },
-      {
-        'name': 'Among Us',
-        'emoji_id': 756211678579785863
-      }
-    ]
-  }
-
 class KermitClient(Client):
   def set_env(self, env):
     self.local_env = {
@@ -75,16 +59,109 @@ class KermitClient(Client):
     if message.content.lower() == 'gamers':
       await self.run_function(gamers.respond, message)
 
+  # TODO: replace with db call
+  def TEMPORARY_get_poll_game_params(self):
+    params = {
+      'channel': self.announcements,
+      'message': 'What games would you guys like to play this weekend?',
+      'react_only': False,
+      'options': [
+        {
+          'name': 'skribbl.io',
+          'emoji_id': 768246281100853258
+        },
+        {
+          'name': 'Among Us',
+          'emoji_id': 756211678579785863
+        }
+      ]
+    }
+
+    # Add custom emojis to params
+    for option in params['options']:
+      option['emoji'] = self.get_emoji(option['emoji_id'])
+
+    return params
+
+  # TODO: replace with db call
+  def TEMPORARY_get_poll_gametime_params(self):
+    params = {
+      'channel': self.announcements,
+      'message': 'What times work best for you this weekend? Select all ' +
+        'that apply (all Pacific Time PM):',
+      'react_only': True,
+      'options': [
+        {
+          'name': '5:00PM PST',
+          'emoji': '\U0001F554'
+        },
+        {
+          'name': '5:30PM PST',
+          'emoji': '\U0001F560'
+        },
+        {
+          'name': '6:00PM PST',
+          'emoji': '\U0001F555'
+        },
+        {
+          'name': '6:30PM PST',
+          'emoji': '\U0001F561'
+        },
+        {
+          'name': '7:00PM PST',
+          'emoji': '\U0001F556'
+        },
+        {
+          'name': '7:30PM PST',
+          'emoji': '\U0001F562'
+        },
+        {
+          'name': '8:00PM PST',
+          'emoji': '\U0001F557'
+        },
+        {
+          'name': '8:30PM PST',
+          'emoji': '\U0001F563'
+        },
+        {
+          'name': '9:00PM PST',
+          'emoji': '\U0001F558'
+        },
+        {
+          'name': '9:30PM PST',
+          'emoji': '\U0001F564'
+        },
+        {
+          'name': '10:00PM PST',
+          'emoji': '\U0001F559'
+        },
+        {
+          'name': '10:30PM PST',
+          'emoji': '\U0001F565'
+        },
+        {
+          'name': '11:00PM PST',
+          'emoji': '\U0001F55A'
+        },
+        {
+          'name': '11:30PM PST',
+          'emoji': '\U0001F566'
+        }
+      ]
+    }
+    return params
+
   async def run_event(self, event: str):
     message: str = ''
 
-    if event == 'poll':
-      params = TEMPORARY_get_poll_params() # TODO: replace with db call
-      # Add announcements channel and emojis to params
-      params['channel'] = self.announcements
-      for option in params['options']:
-        option['emoji'] = self.get_emoji(option['emoji_id'])
-
+    if event == 'poll_games':
+      # TODO: replace the following line with db call
+      params = self.TEMPORARY_get_poll_game_params()
+      self.LogServer(await poll.run_event(params))
+      return
+    if event == 'poll_gametime':
+      # TODO: replace the following line with db call
+      params = self.TEMPORARY_get_poll_gametime_params()
       self.LogServer(await poll.run_event(params))
       return
 
