@@ -25,15 +25,15 @@ class KermitClient(Client):
     print(f'bot connected: {self.user}')
     for guild in self.guilds:
       if guild.name == self.local_env['guild']:
-        self.guild = guild
-        print(f'bot found discord guild: {self.guild.name}')
+        self.env_guild = guild
+        print(f'bot found discord guild: {self.env_guild.name}')
         break
-    for text_channel in self.guild.text_channels:
+    for text_channel in self.env_guild.text_channels:
       if text_channel.name == self.local_env['announcements']:
         self.announcements = text_channel
         print(f'bot found text channel: {self.announcements.name}')
         break
-    await self.run_event('poll')
+    await self.run_event('poll') # TODO: remove this line, for testing only
 
   async def on_message(self, message):
     # Ignore messages from the bot itself to avoid getting stuck in a loop
@@ -51,7 +51,16 @@ class KermitClient(Client):
 
     if event == 'poll':
       message: str = 'I AM ONLINE WRRRYYYY'
-      await poll.run_event(self.announcements, message)
+      params = {
+        'channel': self.announcements,
+        'message': message
+      }
+      for emoji in self.env_guild.emojis:
+        if emoji.name == 'stare':
+          params['emoji'] = emoji
+          break
+
+      await poll.run_event(params)
       self.LogServer(message)
       return
 

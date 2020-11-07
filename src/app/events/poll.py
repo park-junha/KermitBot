@@ -1,2 +1,3 @@
-async def run_event(announcements_channel, message):
-  await announcements_channel.send(message)
+async def run_event(params):
+  sent_message = await params['channel'].send(params['message'])
+  await sent_message.add_reaction(params['emoji'])
