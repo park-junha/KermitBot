@@ -13,7 +13,7 @@ async def main():
     'guild': os.getenv('GUILD'),
     'announcements': os.getenv('ANNOUNCEMENTS'),
     'event_onstart': {
-      'event_name': 'poll',
+      'event_name': 'poll_games',
       'close_after': True
     }
   }

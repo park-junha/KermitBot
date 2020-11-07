@@ -3,7 +3,7 @@ from app.commands import jojo, gamers
 from app.events import poll
 
 # TODO: replace with db call
-def TEMPORARY_get_poll_params():
+def TEMPORARY_get_poll_game_params():
   return {
     'message': 'What games would you guys like to play this weekend?',
     'options': [
@@ -78,8 +78,8 @@ class KermitClient(Client):
   async def run_event(self, event: str):
     message: str = ''
 
-    if event == 'poll':
-      params = TEMPORARY_get_poll_params() # TODO: replace with db call
+    if event == 'poll_games':
+      params = TEMPORARY_get_poll_game_params() # TODO: replace with db call
       # Add announcements channel and emojis to params
       params['channel'] = self.announcements
       for option in params['options']:
