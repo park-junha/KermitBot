@@ -6,7 +6,8 @@ if __name__ == '__main__':
   load_dotenv()
   env = {
     'token': os.getenv('TOKEN'),
-    'guild': os.getenv('GUILD')
+    'guild': os.getenv('GUILD'),
+    'announcements': os.getenv('ANNOUNCEMENTS')
   }
   client = KermitClient()
   client.set_env(env)
