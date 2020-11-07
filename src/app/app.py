@@ -1,8 +1,12 @@
 from discord import Client
-from app.commands import jojo, gamers
+from app.commands import jojo, gamers, copy_message
 from app.events import poll
 
 class KermitClient(Client):
+  def __init__(self, *args, **kwargs):
+    super(KermitClient, self).__init__(*args, **kwargs)
+    self.copy_flip = False
+
   def set_env(self, env):
     self.local_env = {
       'guild': env['guild'],
@@ -20,9 +24,9 @@ class KermitClient(Client):
   def LogServer(self, response: str):
     print(f'server ({self.user}) sent: {response}')
 
-  async def run_function(self, run_command, message):
+  async def run_function(self, run_command, message, *args):
     self.LogClient(message)
-    response: str = run_command()
+    response: str = run_command(*args)
     await message.channel.send(response)
     self.LogServer(response)
 
@@ -48,6 +52,10 @@ class KermitClient(Client):
         print('bot connection closed!')
       return
 
+  def toggle_copy_flip(self) -> str:
+    self.copy_flip = not self.copy_flip
+    return f'toggled copy_flip to: {self.copy_flip}'
+
   async def on_message(self, message):
     # Ignore messages from the bot itself to avoid getting stuck in a loop
     if message.author == self.user:
@@ -55,9 +63,15 @@ class KermitClient(Client):
 
     if message.content == '$jojo':
       await self.run_function(jojo.respond, message)
-
+    if message.content == '$togglecopyflip':
+      await self.run_function(self.toggle_copy_flip, message)
     if message.content.lower() == 'gamers':
       await self.run_function(gamers.respond, message)
+
+    if message.author.display_name == 'Kermit Black' and \
+      self.copy_flip == True:
+      await self.run_function(copy_message.respond, message, \
+        message.content)
 
   # TODO: replace with db call
   def TEMPORARY_get_poll_game_params(self):
