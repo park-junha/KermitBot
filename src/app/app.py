@@ -24,8 +24,11 @@ class KermitClient(Client):
       'guild': env['guild'],
       'announcements': env['announcements']
     }
-    if env['event_onstart'] != None:
+    try:
       self.local_env['event_onstart'] = env['event_onstart']
+    except KeyError:
+      self.local_env['event_onstart'] = None
+      print('WARN: env not supplied with event_onstart, skipping')
 
   def LogClient(self, message: str):
     print(f'client ({message.author}) sent: {message.content}')
