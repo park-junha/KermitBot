@@ -7,6 +7,7 @@
 - Added `ANNOUNCEMENTS` to `.env.example`
 - Changed `$gamers` command to `gamers` (case insensitive)
 - Added an `event_onstart` env option to `KermitClient`
+- Added a script that runs the `poll` event one time
 
 ## 0.1.1
 - Renamed `run_function.function` in `KermitClient` to `run_function.run_command`

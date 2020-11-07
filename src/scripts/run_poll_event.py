@@ -1,4 +1,5 @@
-# TODO: get rid of this file eventually
+# This script opens a bot connection, runs the 'poll' event, then closes
+# the connection as soon as it finishes.
 
 from app.app import KermitClient
 from dotenv import load_dotenv
@@ -18,13 +19,9 @@ async def main():
   }
   client = KermitClient()
   client.set_env(env)
-  print('Starting client...')
+  print('starting client...')
   await client.start(env['token'])
-# print('Running poll event...')
-# await client.run_event('poll')
-# print('Closing client...')
-# await client.close()
-  print('Done!')
+  print('done!')
   return
 
 if __name__ == '__main__':
