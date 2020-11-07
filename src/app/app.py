@@ -7,6 +7,7 @@ class KermitClient(Client):
     super(KermitClient, self).__init__(*args, **kwargs)
     self.copy_flip = False
 
+  # TODO (junha-park): rework this and integrate into __init__ perhaps
   def set_env(self, env):
     self.local_env = {
       'guild': env['guild'],
