@@ -74,6 +74,15 @@ class KermitClient(Client):
       await self.run_function(copy_message.respond, message, \
         message.content)
 
+  def get_static_message_params(self, message):
+    params = {
+      'channel': self.announcements,
+      'message': message,
+      'react_only': True,
+      'options': []
+    }
+    return params
+
   # TODO: replace with db call
   def TEMPORARY_get_poll_game_params(self):
     params = {
@@ -177,6 +186,11 @@ class KermitClient(Client):
     if event == 'poll_gametime':
       # TODO: replace the following line with db call
       params = self.TEMPORARY_get_poll_gametime_params()
+      self.LogServer(await poll.run_event(params))
+      return
+    if event == 'static_message':
+      params = self.get_static_message_params(
+        self.local_env['event_onstart']['message'])
       self.LogServer(await poll.run_event(params))
       return
 
