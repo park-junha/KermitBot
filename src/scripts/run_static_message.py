@@ -1,4 +1,4 @@
-# This script opens a bot connection, runs the 'poll_gametime' event, then
+# This script opens a bot connection, runs the 'static_message' event, then
 # closes the connection as soon as it finishes.
 
 import sys
@@ -16,8 +16,9 @@ async def main():
     'guild': os.getenv('GUILD'),
     'announcements': os.getenv('ANNOUNCEMENTS'),
     'event_onstart': {
-      'event_name': 'poll_gametime',
-      'close_after': True
+      'event_name': 'static_message',
+      'close_after': True,
+      'message': 'It was me, Kermit Bot!!'
     }
   }
   client = KermitClient()
