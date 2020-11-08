@@ -1,5 +1,5 @@
-# This script opens a bot connection, runs the 'poll' event, then closes
-# the connection as soon as it finishes.
+# This script opens a bot connection, runs the 'poll_gametime' event, then
+# closes the connection as soon as it finishes.
 
 import sys
 import os

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.3
+- Added a `static_message` event
+- Fixed typos in script comments
+
 ## 0.2.2
 - Added a `toggle_copy_flip` command that copies Kermit Black :^)
 
