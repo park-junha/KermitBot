@@ -43,6 +43,12 @@ class KermitClient(Client):
         self.announcements = text_channel
         print(f'bot found text channel: {self.announcements.name}')
         break
+
+#   ### TODO (junha-park): remove this before merging PR
+#   for emoji in self.env_guild.emojis:
+#     print(emoji.id, emoji.name)
+#   ###
+
     if self.local_env['event_onstart'] != None:
       event_name: str = self.local_env['event_onstart']['event_name']
       await self.run_event(event_name)
@@ -87,11 +93,16 @@ class KermitClient(Client):
   def TEMPORARY_get_poll_game_params(self):
     params = {
       'channel': self.announcements,
-      'message': 'What games would you guys like to play this weekend?',
+      'message': 'What games would you guys like to play tonight? ' + \
+        'Feel free to vote for more than one!',
       'react_only': False,
       'options': [
         {
           'name': 'skribbl.io',
+          'emoji_id': 768260649779200070
+        },
+        {
+          'name': 'Jackbox',
           'emoji_id': 768246281100853258
         },
         {
